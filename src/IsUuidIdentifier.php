@@ -20,6 +20,9 @@ trait IsUuidIdentifier
      */
     private function __construct($uuid)
     {
+        if ($uuid instanceof Uuid) {
+            $uuid = $uuid->toString();
+        }
         Assertion::uuid($uuid);
 
         $this->uuid = (string)$uuid;

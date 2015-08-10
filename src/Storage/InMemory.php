@@ -35,4 +35,12 @@ final class InMemory implements StorageAdapter
             $this->events[$id][] = $event;
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function initialize(array $options = [])
+    {
+        // we do nothing in this method for this adapter
+    }
 }

@@ -157,7 +157,7 @@ final class Event
     /**
      * Creates a new event and populates it with the given data.
      *
-     * @param string[] $data An array containing the following keys:
+     * @param Stream[]|string[] $data An array containing the following keys:
      *
      *     - id, the UUID for this new event
      *     - payload, an array containing the data
@@ -178,7 +178,7 @@ final class Event
             new \DateTimeImmutable($data['emitted_at']),
             new Metadata($data['metadata'])
         );
-        $event->sequence = $data['sequence'];
+        $event->sequence = (int)$data['sequence'];
         $event->stream   = $data['stream'];
 
         return $event;

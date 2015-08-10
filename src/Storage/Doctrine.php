@@ -17,7 +17,7 @@ final class Doctrine implements StorageAdapter
     /** @var DriverConnection */
     private $connection;
 
-    /** @var string */
+    /** @var string[] */
     private $options;
 
     public function __construct(DriverConnection $connection, array $options = [])
