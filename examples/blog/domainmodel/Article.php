@@ -3,15 +3,13 @@
 namespace PhpInPractice\EventStore\Example\Blog;
 
 use PhpInPractice\EventStore\Aggregate\AggregateRootIsEventSourced;
+use Rhumsaa\Uuid\Uuid;
 
 class Article
 {
     use AggregateRootIsEventSourced;
 
     private $id;
-
-    private $body;
-    private $title;
 
     public static function post($title, $body)
     {
@@ -26,10 +24,13 @@ class Article
         return $this->id;
     }
 
+    public function comment($author, $body)
+    {
+        $this->when(new Commented($this->id, Uuid::uuid4(), $body, $author));
+    }
+
     private function whenPostedArticle(PostedArticle $postedArticle)
     {
-        $this->id    = $postedArticle->articleId();
-        $this->title = $postedArticle->title();
-        $this->body  = $postedArticle->body();
+        $this->id = $postedArticle->articleId();
     }
 }

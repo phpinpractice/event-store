@@ -24,23 +24,29 @@ class WriteRepository
     /** @var EventsHandler */
     private $eventsHandler;
 
+    /** @var Emitter */
+    private $emitter;
+
     /**
      * Initializes this repository with the event store, which type of aggregate to support and
      * a series of strategies on how to handle the aggregate and events.
      *
      * @param EventStorage          $eventStore
      * @param string                $aggregateRootClassName The name of an existing class of the Aggregate that is
-     *     handled by this repository.
+     *                                                      handled by this repository.
+     * @param Emitter               $emitter
      * @param IdentifierExtractor   $identifierExtractor    Strategy that is capable of extracting the id from the
-     *     aggregate.
+     *                                                      aggregate.
      * @param DomainEventSerializer $domainEventSerializer  Generic serializer that converts payloads, represented by
-     *     an array, to an Event and back.
+     *                                                      an array, to an Event and back.
      * @param EventsHandler         $eventsHandler          Strategy that determines how to reconstitute an aggregate
-     *     and how to extract any uncommitted events from the aggregate.
+     *                                                      and how to extract any uncommitted events from the
+     *                                                      aggregate.
      */
     public function __construct(
         EventStorage $eventStore,
         $aggregateRootClassName,
+        Emitter $emitter = null,
         IdentifierExtractor $identifierExtractor,
         DomainEventSerializer $domainEventSerializer,
         EventsHandler $eventsHandler
@@ -49,6 +55,7 @@ class WriteRepository
 
         $this->eventStore             = $eventStore;
         $this->aggregateRootClassName = $aggregateRootClassName;
+        $this->emitter                = $emitter;
         $this->identifierExtractor    = $identifierExtractor;
         $this->domainEventSerializer  = $domainEventSerializer;
         $this->eventsHandler          = $eventsHandler;
@@ -59,14 +66,16 @@ class WriteRepository
      *
      * @param EventStorage $eventStore
      * @param string       $aggregateRootClassName
+     * @param Emitter      $emitter
      *
      * @return static
      */
-    public static function create(EventStorage $eventStore, $aggregateRootClassName)
+    public static function create(EventStorage $eventStore, $aggregateRootClassName, Emitter $emitter = null)
     {
         return new static(
             $eventStore,
             $aggregateRootClassName,
+            $emitter,
             new IdentifierExtractor\UsingIdMethod(),
             new DomainEventSerializer\UsingMappingMethods(),
             new EventsHandler\PublicMethods()
@@ -115,6 +124,9 @@ class WriteRepository
             );
 
             $this->eventStore->persist($stream, [$event]);
+            if ($this->emitter) {
+                $this->emitter->emit($domainEvent);
+            }
         }
     }
 }
