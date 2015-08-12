@@ -29,6 +29,11 @@ class Article
         $this->when(new Commented($this->id, Uuid::uuid4(), $body, $author));
     }
 
+    public function changeTitle($title)
+    {
+        $this->when(new ArticleTitleChanged($this->id(), $title));
+    }
+
     private function whenPostedArticle(PostedArticle $postedArticle)
     {
         $this->id = $postedArticle->articleId();

@@ -5,7 +5,7 @@ namespace PhpInPractice\EventStore\Aggregate;
 class Emitter
 {
     /** @var object[] */
-    private $projectors;
+    private $projectors = [];
 
     public function subscribe($projector)
     {
