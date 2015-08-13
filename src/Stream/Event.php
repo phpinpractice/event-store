@@ -2,7 +2,7 @@
 
 namespace PhpInPractice\EventStore\Stream;
 
-use PhpInPractice\EventStore\Metadata;
+use PhpInPractice\EventStore\Stream\Event\Metadata;
 use PhpInPractice\EventStore\Stream;
 
 /**

@@ -22,20 +22,6 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::metadata
-     * @uses PhpInPractice\EventStore\Stream\Id
-     * @test
-     */
-    public function it_can_have_metadata()
-    {
-        $metadata = new Metadata();
-        $stream = new Stream(Stream\Id::generate(), $metadata);
-
-        $this->assertSame($metadata, $stream->metadata());
-    }
-
-    /**
      * @covers ::incrementHead
      * @uses PhpInPractice\EventStore\Stream::__construct
      * @uses PhpInPractice\EventStore\Stream\Id
