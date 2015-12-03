@@ -51,6 +51,18 @@ trait IsUuidIdentifier
     }
 
     /**
+     * Compares this class to another identifier of the same class.
+     *
+     * @param static $identifier
+     *
+     * @return bool
+     */
+    public function equals($identifier)
+    {
+        return $identifier instanceof static && $this->uuid === (string)$identifier;
+    }
+
+    /**
      * Returns the underlying UUID for serialisation.
      *
      * @return string

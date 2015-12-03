@@ -20,24 +20,28 @@
         "mockery/mockery":    "^0.9.4",
         "league/tactician":   "^0.6.1",
         "doctrine/dbal":      "^2.5",
-        "scrutinizer/ocular": "^1.1"
+        "scrutinizer/ocular": "^1.1",
+        "rikbruil/specification": "0.9.*"
     },
     "suggests": {
-        "league/tactician":    "As a command bus to process the commands",
-        "simplebus/simplebus": "As a command bus to process the commands",
-        "doctrine/dbal":       "When you want to use the Doctrine storage adapter"
+        "league/tactician":       "As a command bus to process the commands",
+        "simplebus/simplebus":    "As a command bus to process the commands",
+        "doctrine/dbal":          "When you want to use the Doctrine storage adapter",
+        "rikbruil/specification": "If you want to filter projections"
     },
     "autoload": {
         "psr-4": {
             "PhpInPractice\\EventStore\\":                [ "src", "lib/eventstore-snapshots"],
             "PhpInPractice\\EventStore\\Aggregate\\":     "lib/eventstore-aggregates",
+            "PhpInPractice\\EventStore\\Projections\\":   "lib/eventstore-projections",
             "PhpInPractice\\EventStore\\Acl\\":           "lib/eventstore-acl",
             "PhpInPractice\\EventStore\\Example\\Blog\\": "examples/blog/domainmodel"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpInPractice\\EventStore\\": [ "tests/unit" ]
+            "PhpInPractice\\EventStore\\": [ "tests/unit" ],
+            "PhpInPractice\\EventStore\\Projections\\": [ "tests/lib/eventstore-projections/unit" ]
         }
     },
     "scripts": {

@@ -12,9 +12,6 @@ class WriteRepository
     /** @var EventStorage */
     private $eventStore;
 
-    /** @var string|AggregateRootIsEventSourced */
-    private $aggregateRootClassName;
-
     /** @var IdentifierExtractor */
     private $identifierExtractor;
 
@@ -32,8 +29,6 @@ class WriteRepository
      * a series of strategies on how to handle the aggregate and events.
      *
      * @param EventStorage          $eventStore
-     * @param string                $aggregateRootClassName The name of an existing class of the Aggregate that is
-     *                                                      handled by this repository.
      * @param Emitter               $emitter
      * @param IdentifierExtractor   $identifierExtractor    Strategy that is capable of extracting the id from the
      *                                                      aggregate.
@@ -45,16 +40,12 @@ class WriteRepository
      */
     public function __construct(
         EventStorage $eventStore,
-        $aggregateRootClassName,
         Emitter $emitter = null,
         IdentifierExtractor $identifierExtractor,
         DomainEventSerializer $domainEventSerializer,
         EventsHandler $eventsHandler
     ) {
-        Assertion::classExists($aggregateRootClassName);
-
         $this->eventStore             = $eventStore;
-        $this->aggregateRootClassName = $aggregateRootClassName;
         $this->emitter                = $emitter;
         $this->identifierExtractor    = $identifierExtractor;
         $this->domainEventSerializer  = $domainEventSerializer;
@@ -65,16 +56,14 @@ class WriteRepository
      * Creates a new Write Repository using the recommended strategies.
      *
      * @param EventStorage $eventStore
-     * @param string       $aggregateRootClassName
      * @param Emitter      $emitter
      *
      * @return static
      */
-    public static function create(EventStorage $eventStore, $aggregateRootClassName, Emitter $emitter = null)
+    public static function create(EventStorage $eventStore, Emitter $emitter = null)
     {
         return new static(
             $eventStore,
-            $aggregateRootClassName,
             $emitter,
             new IdentifierExtractor\UsingIdMethod(),
             new DomainEventSerializer\UsingMappingMethods(),
@@ -85,11 +74,12 @@ class WriteRepository
     /**
      * Retrieves an aggregate root object for the given identifier or null if none was found.
      *
-     * @param string $id
+     * @param string $type The classname of the Aggregate Root that should be reconstituted
+     * @param string $id   The identifier of the Aggregate Root that should be reconstituted
      *
-     * @return object|null
+     * @return null|object
      */
-    public function load($id)
+    public function load($type, $id)
     {
         $stream        = new Stream(Stream\Id::fromString((string)$id));
         $articleEvents = $this->eventStore->fetchEvents($stream);
@@ -106,13 +96,17 @@ class WriteRepository
             );
         }
 
-        return $this->eventsHandler->reconstitute($this->aggregateRootClassName, $domainEvents);
+        return $this->eventsHandler->reconstitute($type, $domainEvents);
     }
 
     public function persist($aggregateRoot)
     {
         $aggregateRootId = $this->identifierExtractor->extract($aggregateRoot);
         $stream          = new Stream(Stream\Id::fromString($aggregateRootId));
+
+        // ensure that the sequence index is set to the latest item
+        // TODO: we should actually use a StreamRepository to retrieve the existing stream and its index
+        $this->eventStore->fetchEvents($stream);
 
         $events = $this->eventsHandler->extractUncommittedEvents($aggregateRoot);
         foreach ($events as $domainEvent) {

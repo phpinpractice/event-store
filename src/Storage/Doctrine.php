@@ -75,7 +75,7 @@ final class Doctrine implements StorageAdapter
             ->select('*')
             ->from($this->options[self::OPTION_TABLENAME])
             ->where('stream_id = :streamId')
-            ->orderBy('sequence', 'DESC');
+            ->orderBy('sequence', 'ASC');
         $query->setParameter('streamId', (string)$stream->id());
         $events = $query->execute();
 
@@ -89,7 +89,7 @@ final class Doctrine implements StorageAdapter
                 'sequence'   => $event['sequence'],
                 'metadata'   => [],
             ]);
-            $stream->moveHeadTo($event['sequence']);
+            $stream->moveHeadTo((int)$event['sequence']);
         }
 
         return $result;

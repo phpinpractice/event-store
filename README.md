@@ -6,6 +6,12 @@ Event store
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
+**It is highly recommended not to use this library for anything other than educational purposes**
+
+This library is an experimental prototype (yes, not a normal one; an experimental one!). This means that
+this very repository may be deleted without notice, the structure of the application invariably changed,
+or other stuff that will break your environment if you depend on this.
+
 ## Security
 
 If you discover any security related issues, please email me@mikevanriel.com instead of using the issue tracker.
