@@ -1,0 +1,13 @@
+template:
+    url: https://github.com/CouscousPHP/Template-ReadTheDocs.git
+
+title: Php In Practice Event Store
+
+menu:
+    items:
+        homepage:
+            text: Introduction
+            relativeUrl:
+        getting-started:
+            text: Getting Started
+            relativeUrl: event-store/getting-started.html

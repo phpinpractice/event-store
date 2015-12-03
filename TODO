@@ -1,0 +1,9 @@
+# TODO
+
+- Add ACL
+- Write Blog example
+- Add snapshot support
+- Allow emitter to emit to multiple adapters, including a remote one.
+- Think about versioning
+- have projections create streams and link to 'real' events
+- investigate initialization of stream meta-data fields in Doctrine?

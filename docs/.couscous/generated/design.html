@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Php In Practice Event Store</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/theme-fixes.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+</head>
+<body class="wy-body-for-nav">
+
+    <div class="wy-grid-for-nav">
+
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+            <div class="wy-side-nav-search">
+                <a href="/" class="fa fa-home"> Php In Practice Event Store</a>
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/">
+                                Introduction
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/event-store/getting-started.html">
+                                Getting Started
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+            &nbsp;
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+                        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+                <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+                <a href="/">Php In Practice Event Store</a>
+            </nav>
+
+
+                        <div class="wy-nav-content">
+                <div class="rst-content">
+                    <div role="main" class="document">
+                        <h1>Design</h1>
+<p>Event Store is not Event Sourcing, it is a database that can be used for event sourcing.</p>
+<h2>Authentication</h2>
+<p>Authentication should be optional; by default the event store has a default Consumer called 'admin' that is passwordless
+and has all permissions globally. This means that the default Consumer is allowed to read and write events but also to
+add consumers and set their permissions</p>
+<ul>
+<li>Adding a Role to a Consumer will automatically create that Role?</li>
+</ul>
+<h2>Domain Model:</h2>
+<h3>Events</h3>
+<ul>
+<li>Write event(s) to Stream</li>
+<li>Read events from Stream</li>
+<li>Remove Stream</li>
+<li>Make snapshot</li>
+<li>Add Consumer</li>
+<li>Disable Consumer</li>
+<li>Grant permission on Stream to Consumer</li>
+<li>Revoke permission on Stream from Consumer</li>
+<li>Grant global permission to Consumer</li>
+<li>Revoke global permission from Consumer</li>
+<li>Add Role to Consumer</li>
+<li>Revoke Role from Consumer</li>
+<li>Grant permission on Stream to Role</li>
+<li>Revoke permission on Stream from Role</li>
+<li>Grant global permission to Role</li>
+<li>Revoke global permission from Role</li>
+</ul>
+<h3>Entities</h3>
+<ul>
+<li>Consumer</li>
+<li>Role</li>
+<li>Permission</li>
+<li>Stream</li>
+<li>Event</li>
+<li>StreamSnapshot</li>
+</ul>
+<p>Application Layer:</p>
+<ul>
+<li>DoctrineDbalAdapter</li>
+</ul>
+                    </div>
+
+                    <footer>
+                        <hr/>
+                                                Built with <a href="http://couscous.io/">Couscous</a> using a <a href="https://github.com/CouscousPHP/Template-ReadTheDocs">theme</a> based on <a href="https://readthedocs.org/">Read the Docs</a>.
+                    </footer>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="/js/theme.js"></script>
+
+    <script>
+        $(function() {
+            // Syntax highlighting
+            hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+</body>
+</html>
